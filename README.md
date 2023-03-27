@@ -1,0 +1,1 @@
+This is a repository to store files related to the Regression Exercises Module of the CodeUp Data Science Course. The gradeable exercise files are in the root directory and there are class notes and instructor solutions to the exercises stored in separate folders.
