@@ -11,48 +11,79 @@ def get_connection(db, u=user, h=host, p=password):
     '''
     return f'mysql+pymysql://{u}:{p}@{h}/{db}'
 
-def new_telco_data():
+def new_zillow_data2016():
     '''
-    This function reads the telco data from the Codeup db into a df.
+    This function reads the zillow data from the Codeup db into a df.
     '''
     sql_query = """
-                select * from customers c
-	left join customer_payments using(customer_id)
-    left join customer_churn using(customer_id)
-    left join customer_contracts using(customer_id)
-    left join customer_details using(customer_id)
-    left join customer_signups using(customer_id)
-    left join customer_subscriptions using(customer_id)
-    left join internet_service_types as ist 
-		on c.internet_service_type_id = ist.internet_service_type_id
-    left join contract_types as ct
-		on c.contract_type_id = ct.contract_type_id
-	left join payment_types as pt
-		on c.payment_type_id = pt.payment_type_id
-;
+                select bedroomcnt, bathroomcnt, 
+                calculatedfinishedsquarefeet, taxvaluedollarcnt, 
+                yearbuilt, taxamount, fips from properties_2016
+                where propertylandusetypeid = 261
+                ;
+
                  """
     
     # Read in DataFrame from Codeup db.
-    df = pd.read_sql(sql_query, get_connection('telco_churn'))
+    df = pd.read_sql(sql_query, get_connection('zillow'))
     
     return df
 
-def get_telco_data():
+def new_zillow_data2017():
     '''
-    This function reads in telco data from Codeup database, writes data to
+    This function reads the zillow data from the Codeup db into a df.
+    '''
+    sql_query = """
+                select bedroomcnt, bathroomcnt, 
+                calculatedfinishedsquarefeet, taxvaluedollarcnt, 
+                yearbuilt, taxamount, fips from properties_2017
+                where propertylandusetypeid = 261
+                ;
+
+                 """
+    
+    # Read in DataFrame from Codeup db.
+    df = pd.read_sql(sql_query, get_connection('zillow'))
+    
+    return df
+
+def get_zillow_data2016():
+    '''
+    This function reads in zillow 2016 data from Codeup database, writes data to
     a csv file if a local file does not exist, and returns a df.
     '''
-    if os.path.isfile('telco.csv'):
+    if os.path.isfile('zillow2016.csv'):
         
         # If csv file exists read in data from csv file.
-        df = pd.read_csv('telco.csv', index_col=0)
+        df = pd.read_csv('zillow2016.csv', index_col=0)
         
     else:
         
         # Read fresh data from db into a DataFrame
-        df = new_telco_data()
+        df = new_zillow_data2016()
         
         # Cache data
-        df.to_csv('telco.csv')
+        df.to_csv('zillow2016.csv')
+        
+    return df
+
+
+def get_zillow_data2017():
+    '''
+    This function reads in zillow 2017 data from Codeup database, writes data to
+    a csv file if a local file does not exist, and returns a df.
+    '''
+    if os.path.isfile('zillow2017.csv'):
+        
+        # If csv file exists read in data from csv file.
+        df = pd.read_csv('zillow2017.csv', index_col=0)
+        
+    else:
+        
+        # Read fresh data from db into a DataFrame
+        df = new_zillow_data2017()
+        
+        # Cache data
+        df.to_csv('zillow2017.csv')
         
     return df
