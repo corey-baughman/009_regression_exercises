@@ -126,7 +126,7 @@ def clean_zillow_data2017():
     # bedrooms, year built, and fips code should be integers
     df.bedrooms = df.bedrooms.astype(int)
     df.year_built = df.year_built.astype(int)
-    df.fips = df.fips.astype(int)
+    df.fips = df.fips.astype(object)
     
     return df
 
@@ -145,6 +145,7 @@ def remove_outliers(df, col_list=col_list, k=1.5):
         lower_fence = col_qs[col][0.25] - (k*iqr)
         upper_fence = col_qs[col][0.75] + (k*iqr)
         df = df[(df[col] > lower_fence) & (df[col] < upper_fence)]
+    df.reset_index(drop=True, inplace=True)
     
     return df
 
