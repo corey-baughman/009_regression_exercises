@@ -42,7 +42,7 @@ def new_zillow_data2017():
                 from properties_2017 
                 where propertylandusetypeid = 261 or 
                 propertylandusetypeid = 279 
-                limit 50;
+                ;
                  """
     
     # Read in DataFrame from Codeup db.
