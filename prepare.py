@@ -40,7 +40,7 @@ def telco_pre_split_clean(df):
 def telco_encoded_cleaned(df):
     '''
     function takes in the output of the telco_pre_split_clean
-    and encodes all of the useful features for (pre-split) for (post-split)
+    and encodes all of the useful features (pre-split) for (post-split)
     ML analysis.
     '''
     df['gender_encoded'] = df.gender.map({'Female': 1, 'Male': 0})
